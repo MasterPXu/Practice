@@ -1,0 +1,6 @@
+package com.example.demo.common.drools;
+    rule "test001"
+        when
+        //这里如果为空 则表示eval(true);
+        then  System.out.println("hello world");
+end

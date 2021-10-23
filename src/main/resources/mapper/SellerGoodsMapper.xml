@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.SellerGoodsMapper">
+
+    <resultMap id="daSensorKeyMap" type="java.util.Map">
+        <result property="key" column="id"/>
+        <result property="value" column="seller_name"/>
+    </resultMap>
+
+    <insert id="inserteSeller">
+            insert into seller_goods values (null, #{sellerName})
+    </insert>
+    <delete id="deleteSellerById"></delete>
+
+    <!--查询返回base地的map集合-->
+    <select  id="getBaseMap" resultMap="daSensorKeyMap">
+        select id,seller_name from seller_goods
+    </select>
+</mapper>
