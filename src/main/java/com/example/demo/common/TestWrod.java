@@ -12,10 +12,12 @@ import org.kie.api.runtime.KieSession;
  */
 public class TestWrod {
     public static void main(String[] args) {
-        KieServices kss = KieServices.Factory.get();
-        KieContainer kc = kss.getKieClasspathContainer();
-        KieSession ks =kc.newKieSession("session");
-        int count = ks.fireAllRules();
-        System.out.println("总执行了"+count+"条规则");  ks.dispose();
+//        KieServices kss = KieServices.Factory.get();
+        KieServices ks = KieServices.get();
+        KieContainer kc = ks.getKieClasspathContainer();
+        KieSession kss =kc.newKieSession("session");
+        int count = kss.fireAllRules();
+        System.out.println("总执行了"+count+"条规则");
+        kss.dispose();
     }
 }
