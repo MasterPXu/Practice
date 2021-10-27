@@ -1,15 +1,14 @@
 package com.example.demo.controller;
 
+import com.example.demo.common.kafka.producer.KafkaProducer;
 import com.example.demo.mapper.SellerGoodsMapper;
 import com.example.demo.mapper.UserMappper;
 import com.example.demo.service.TestTransactionalServiceImpl;
 import com.example.demo.vo.TestEnum;
 import com.example.demo.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.kafka.annotation.KafkaHandler;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Connection;
 import java.util.List;
@@ -28,7 +27,8 @@ public class TestTransactionalController {
     TestTransactionalServiceImpl service;
     @Autowired
     private SellerGoodsMapper sellerGoodsMapper;
-
+    @Autowired
+    private KafkaProducer kafkaProducer;
     /**
      *	查询所有用户信息
      */
@@ -52,6 +52,16 @@ public class TestTransactionalController {
     @GetMapping("/enum")
     public void getEnum(@RequestParam(required = false)TestEnum test){
         System.out.println(test);
+    }
+
+
+    @PutMapping("/kafka")
+    public void putKafka(String msg){
+        kafkaProducer.sendLog("Hello," + msg);
+    }
+    @PutMapping("/kafka_object")
+    public void putKafkaObject(){
+        kafkaProducer.sendObject();
     }
 
 }

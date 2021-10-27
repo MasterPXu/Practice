@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -14,7 +15,7 @@ import java.math.BigDecimal;
  */
 @Data
 @Valid
-public class User {
+public class User implements Serializable {
     Long id;
     String name;
     Integer age;
