@@ -35,11 +35,14 @@ public class TestTransactionalController {
     @GetMapping("/transactional")
     public void transactional() throws Exception {
          List<Connection> list = service.transactions();
-
-         int i = 0;
          for(Connection con : list){
-            System.out.println(i + "connection is Closed" + con.isClosed());
+            System.out.println("connection is Closed" + con.isClosed());
          }
+    }
+
+    @GetMapping("/transactional-dif-rollback")
+    public void transactionsOnDifferentRollBackFor() throws Exception {
+        service.transactionsOnDifferentRollBackFor();
     }
 
 
