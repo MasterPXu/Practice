@@ -4,6 +4,7 @@ import com.example.demo.mapper.SellerGoodsMapper;
 import com.example.demo.mapper.UserMappper;
 import com.example.demo.vo.SellerGoods;
 import com.example.demo.vo.User;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,25 +53,32 @@ public class TestTransactionalServiceImpl {
         System.out.println("1:connection 是否关闭" + sqlSession.getConfiguration().getEnvironment().getDataSource().getConnection().isClosed());
         //2:插入seller
         Connection co = insert(sellers,con);
+        new Thread(()->{
+            try {
+                Connection conn = insert(sellers,con);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
         System.out.println("co.isClosed()" + co.isClosed() + "con.isClosed()" + con.isClosed());
         //3:插入user,抛出异常
-        try {
+//        try {
             service.insertThrow(user2,con);
-        }catch (Exception e){
-
-        }
+//        }catch (Exception e){
+//
+//        }
         System.out.println("co.isClosed()" + co.isClosed() + "con.isClosed()" + con.isClosed());
-        System.out.println("查询boolean结果为: " + userMappper.testBoolean());
+//        System.out.println("查询boolean结果为: " + userMappper.testBoolean());
         return Arrays.asList(co,con);
     }
 
 
 
-    public Connection insert(SellerGoods sellers,Connection con) throws Exception{
+    private Connection insert(SellerGoods sellers,Connection con) throws Exception{
         System.out.println("2:插入seller");
-        System.out.println( "2:dataSource" + sqlSession.getConfiguration().getEnvironment().getDataSource());
-        System.out.println("2:connection 是否一致" + sqlSession.getConfiguration().getEnvironment().getDataSource().getConnection());
-        System.out.println("2:connection 是否关闭" + sqlSession.getConfiguration().getEnvironment().getDataSource().getConnection().isClosed());
+//        System.out.println( "2:dataSource" + sqlSession.getConfiguration().getEnvironment().getDataSource());
+//        System.out.println("2:connection 是否一致" + sqlSession.getConfiguration().getEnvironment().getDataSource().getConnection());
+//        System.out.println("2:connection 是否关闭" + sqlSession.getConfiguration().getEnvironment().getDataSource().getConnection().isClosed());
         sellerGoodsMapper.inserteSeller(sellers);
         return sqlSession.getConfiguration().getEnvironment().getDataSource().getConnection();
     }
